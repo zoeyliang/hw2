@@ -1273,7 +1273,7 @@ void smvp(int nodes, double (*A)[3][3], int *Acol, int *Aindex,
   int i,j;
   int Anext, Alast, col;
   double sum0, sum1, sum2;
-
+#pragma omp parallel for collapse(2)
   for (j = 0; j < numthreads; j++) {
     for (i = 0; i < nodes; i++) {
       w2[j][i] = 0;
@@ -1288,7 +1288,14 @@ void smvp(int nodes, double (*A)[3][3], int *Acol, int *Aindex,
    my_cpu_id=0;
 #endif
 }
+    
+#ifdef _OPENMP
+  my_cpu_id = omp_get_thread_num();
+#else
+   my_cpu_id=0;
+#endif
 
+#pragma omp for
   for (i = 0; i < nodes; i++) {
     Anext = Aindex[i];
     Alast = Aindex[i + 1];
@@ -1298,25 +1305,44 @@ void smvp(int nodes, double (*A)[3][3], int *Acol, int *Aindex,
     sum2 = A[Anext][2][0]*v[i][0] + A[Anext][2][1]*v[i][1] + A[Anext][2][2]*v[i][2];
 
     Anext++;
-    while (Anext < Alast) {
-      col = Acol[Anext];
-
-      sum0 += A[Anext][0][0]*v[col][0] + A[Anext][0][1]*v[col][1] + A[Anext][0][2]*v[col][2];
-      sum1 += A[Anext][1][0]*v[col][0] + A[Anext][1][1]*v[col][1] + A[Anext][1][2]*v[col][2];
-      sum2 += A[Anext][2][0]*v[col][0] + A[Anext][2][1]*v[col][1] + A[Anext][2][2]*v[col][2];
-
-      if (w2[my_cpu_id][col] == 0) {
-    w2[my_cpu_id][col] = 1;
-    w1[my_cpu_id][col].first = 0.0;
-    w1[my_cpu_id][col].second = 0.0;
-    w1[my_cpu_id][col].third = 0.0;
-      }
+//    while (Anext < Alast) {
+//      col = Acol[Anext];
+//
+//      sum0 += A[Anext][0][0]*v[col][0] + A[Anext][0][1]*v[col][1] + A[Anext][0][2]*v[col][2];
+//      sum1 += A[Anext][1][0]*v[col][0] + A[Anext][1][1]*v[col][1] + A[Anext][1][2]*v[col][2];
+//      sum2 += A[Anext][2][0]*v[col][0] + A[Anext][2][1]*v[col][1] + A[Anext][2][2]*v[col][2];
+//
+//      if (w2[my_cpu_id][col] == 0) {
+//    w2[my_cpu_id][col] = 1;
+//    w1[my_cpu_id][col].first = 0.0;
+//    w1[my_cpu_id][col].second = 0.0;
+//    w1[my_cpu_id][col].third = 0.0;
+//      }
+//
+//      w1[my_cpu_id][col].first += A[Anext][0][0]*v[i][0] + A[Anext][1][0]*v[i][1] + A[Anext][2][0]*v[i][2];
+//      w1[my_cpu_id][col].second += A[Anext][0][1]*v[i][0] + A[Anext][1][1]*v[i][1] + A[Anext][2][1]*v[i][2];
+//      w1[my_cpu_id][col].third += A[Anext][0][2]*v[i][0] + A[Anext][1][2]*v[i][1] + A[Anext][2][2]*v[i][2];
+//      Anext++;
+//    }
       
-      w1[my_cpu_id][col].first += A[Anext][0][0]*v[i][0] + A[Anext][1][0]*v[i][1] + A[Anext][2][0]*v[i][2];
-      w1[my_cpu_id][col].second += A[Anext][0][1]*v[i][0] + A[Anext][1][1]*v[i][1] + A[Anext][2][1]*v[i][2];
-      w1[my_cpu_id][col].third += A[Anext][0][2]*v[i][0] + A[Anext][1][2]*v[i][1] + A[Anext][2][2]*v[i][2];
-      Anext++;
-    }
+      for (j = Anext;j < Alast;j++) {
+        col = Acol[j];
+
+        sum0 += A[j][0][0]*v[col][0] + A[j][0][1]*v[col][1] + A[j][0][2]*v[col][2];
+        sum1 += A[j][1][0]*v[col][0] + A[j][1][1]*v[col][1] + A[j][1][2]*v[col][2];
+        sum2 += A[j][2][0]*v[col][0] + A[j][2][1]*v[col][1] + A[j][2][2]*v[col][2];
+
+        if (w2[my_cpu_id][col] == 0) {
+      w2[my_cpu_id][col] = 1;
+      w1[my_cpu_id][col].first = 0.0;
+      w1[my_cpu_id][col].second = 0.0;
+      w1[my_cpu_id][col].third = 0.0;
+        }
+        
+        w1[my_cpu_id][col].first += A[j][0][0]*v[i][0] + A[j][1][0]*v[i][1] + A[j][2][0]*v[i][2];
+        w1[my_cpu_id][col].second += A[j][0][1]*v[i][0] + A[j][1][1]*v[i][1] + A[j][2][1]*v[i][2];
+        w1[my_cpu_id][col].third += A[j][0][2]*v[i][0] + A[j][1][2]*v[i][1] + A[j][2][2]*v[i][2];
+      }
 
     if (w2[my_cpu_id][i] == 0) {
       w2[my_cpu_id][i] = 1;
@@ -1329,7 +1355,8 @@ void smvp(int nodes, double (*A)[3][3], int *Acol, int *Aindex,
     w1[my_cpu_id][i].second += sum1;
     w1[my_cpu_id][i].third += sum2;
   }
-
+    
+#pragma omp for collapse(2)
   for (i = 0; i < nodes; i++) {
     for (j = 0; j < numthreads; j++) {
       if (w2[j][i]) {
@@ -1532,6 +1559,7 @@ int i, j, k;
     fflush(stderr);
     exit(0);
   }
+    #pragma omp for private(i)
   for (i = 0; i < numthreads; i++) {
     w2[i] = (int *) malloc(ARCHnodes * sizeof(int));
     if (w2[i] == (int *) NULL) {
@@ -1593,7 +1621,7 @@ int i, j, k;
   for (i = 0; i < ARCHelems; i++) {
     source_elms[i] = 1;
   }
-#pragma omp parallel for private(i,j,k)
+#pragma omp for collapse(3)
   for (i = 0; i < ARCHmatrixlen; i++) {
     for (j = 0; j < 3; j++) {
       for (k = 0; k < 3; k++) {
