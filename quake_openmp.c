@@ -1288,14 +1288,9 @@ void smvp(int nodes, double (*A)[3][3], int *Acol, int *Aindex,
    my_cpu_id=0;
 #endif
 }
-    
-#ifdef _OPENMP
-  my_cpu_id = omp_get_thread_num();
-#else
-   my_cpu_id=0;
-#endif
 
-#pragma omp for
+
+#pragma omp for 
   for (i = 0; i < nodes; i++) {
     Anext = Aindex[i];
     Alast = Aindex[i + 1];
@@ -1534,7 +1529,7 @@ int i, j, k;
     fflush(stderr);
     exit(0);
   }
-#pragma omp for
+#pragma omp parallel for shared(w1)
   for (i = 0; i < numthreads; i++) {
     w1[i] = (smallarray_t *) malloc(ARCHnodes * sizeof(smallarray_t));
     if (w1[i] == (smallarray_t *) NULL) {
@@ -1543,7 +1538,7 @@ int i, j, k;
       exit(0);
     }
   }
-#pragma omp parallel for private(i,j)
+#pragma omp parallel for collapse(2) shared(w1)
   for (j = 0; j < numthreads; j++) {
     for (i = 0; i < ARCHnodes; i++) {
       w1[j][i].first = 0.0;
@@ -1568,7 +1563,7 @@ int i, j, k;
       exit(0);
     }
   }
-#pragma omp parallel for private(i,j)
+#pragma omp parallel for collapse(2) shared(w2) private(i,j)
   for (j = 0; j < numthreads; j++) {
     for (i = 0; i < ARCHnodes; i++) {
       w2[j][i] = 0;
