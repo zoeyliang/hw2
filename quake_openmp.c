@@ -580,6 +580,7 @@ int main(int argc, char **argv)
   }
 
   /* free w1 work array */
+#pragma omp parallel for shared(w1)
   for (i = 0; i < numthreads; i++)
   {
      free(w1[i]);
@@ -1506,6 +1507,7 @@ int i, j, k;
     fflush(stderr);
     exit(0);
   }
+#pragma omp for
   for (i = 0; i < numthreads; i++) {
     w1[i] = (smallarray_t *) malloc(ARCHnodes * sizeof(smallarray_t));
     if (w1[i] == (smallarray_t *) NULL) {
@@ -1514,7 +1516,7 @@ int i, j, k;
       exit(0);
     }
   }
-
+#pragma omp parallel for private(i,j)
   for (j = 0; j < numthreads; j++) {
     for (i = 0; i < ARCHnodes; i++) {
       w1[j][i].first = 0.0;
@@ -1538,7 +1540,7 @@ int i, j, k;
       exit(0);
     }
   }
-
+#pragma omp parallel for private(i,j)
   for (j = 0; j < numthreads; j++) {
     for (i = 0; i < ARCHnodes; i++) {
       w2[j][i] = 0;
@@ -1573,7 +1575,7 @@ int i, j, k;
 
 
   /* Initializations */
-
+#pragma omp parallel for private(i,j)
   for (i = 0; i < ARCHnodes; i++) {
     nodekind[i] = 0;
     for (j = 0; j < 3; j++) {
@@ -1587,11 +1589,11 @@ int i, j, k;
       disp[2][i][j] = 0.0;
     }
   }
-
+#pragma omp for
   for (i = 0; i < ARCHelems; i++) {
     source_elms[i] = 1;
   }
-
+#pragma omp parallel for private(i,j,k)
   for (i = 0; i < ARCHmatrixlen; i++) {
     for (j = 0; j < 3; j++) {
       for (k = 0; k < 3; k++) {
