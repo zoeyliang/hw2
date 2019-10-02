@@ -286,7 +286,7 @@ int main(int argc, char **argv)
     exit(0);
   }
 
-#pragma omp parallel private(my_cpu_id,d1,d2,c0)
+#pragma omp parallel private(my_cpu_id,d1,d2,c0) shared(temp1, temp2, bigdist1, bigdist2, ARCHcoord)
 {
 #ifdef _OPENMP
      my_cpu_id=omp_get_thread_num();
@@ -297,7 +297,7 @@ int main(int argc, char **argv)
      temp2[my_cpu_id]=-1;
      bigdist1[my_cpu_id]=1000000.0;
      bigdist2[my_cpu_id]=1000000.0;
-}
+
 #pragma omp for
      for (i = 0; i < ARCHnodes; i++) {
         c0[0] = ARCHcoord[i][0];
@@ -316,7 +316,7 @@ int main(int argc, char **argv)
            temp2[my_cpu_id] = i;
        }
     }
-
+}
     d1=bigdist1[0];
     d2=bigdist2[0];
     Src.sourcenode=temp1[0];
