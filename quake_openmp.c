@@ -1421,194 +1421,200 @@ void smvp_opt(int nodes, double (*A)[3][3], int *Acol, int *Aindex,
 /* Dynamic memory allocations and initializations                           */
 
 void mem_init(void) {
+    int i, j, k;
 
-int i, j, k;
+    /* Node vector */
 
-/* Node vector */
+      nodekindf = (double *) malloc(ARCHnodes * sizeof(double));
+      if (nodekindf == (double *) NULL) {
+        fprintf(stderr, "malloc failed for nodekindf\n");
+        fflush(stderr);
+        exit(0);
+      }
 
-  nodekindf = (double *) malloc(ARCHnodes * sizeof(double));
-  if (nodekindf == (double *) NULL) {
-    fprintf(stderr, "malloc failed for nodekindf\n");
-    fflush(stderr);
-    exit(0);
-  }
+    /* Node vector */
 
-/* Node vector */
+      nodekind = (int *) malloc(ARCHnodes * sizeof(int));
+      if (nodekind == (int *) NULL) {
+        fprintf(stderr, "malloc failed for nodekind\n");
+        fflush(stderr);
+        exit(0);
+      }
 
-  nodekind = (int *) malloc(ARCHnodes * sizeof(int));
-  if (nodekind == (int *) NULL) {
-    fprintf(stderr, "malloc failed for nodekind\n");
-    fflush(stderr);
-    exit(0);
-  }
+    /* Element vector */
 
-/* Element vector */
+      source_elms = (int *) malloc(ARCHelems * sizeof(int));
+      if (source_elms == (int *) NULL) {
+        fprintf(stderr, "malloc failed for source_elms\n");
+        fflush(stderr);
+        exit(0);
+      }
 
-  source_elms = (int *) malloc(ARCHelems * sizeof(int));
-  if (source_elms == (int *) NULL) {
-    fprintf(stderr, "malloc failed for source_elms\n");
-    fflush(stderr);
-    exit(0);
-  }
+    /* Velocity array */
 
-/* Velocity array */
+      vel = (double (*)[3]) malloc(ARCHnodes * sizeof(double [3]));
+      if (vel == (double (*)[3]) NULL) {
+          fprintf(stderr, "malloc failed for vel\n");
+          fflush(stderr);
+          exit(0);
+        }
 
-  vel = (double (*)[3]) malloc(ARCHnodes * sizeof(double [3]));
-  if (vel == (double (*)[3]) NULL) {
-      fprintf(stderr, "malloc failed for vel\n");
-      fflush(stderr);
-      exit(0);
-    }
+    /* Mass matrix */
+      
+       M = (double (*)[3]) malloc(ARCHnodes * sizeof(double [3]));
+       if (M == (double (*)[3]) NULL) {
+          fprintf(stderr, "malloc failed for M\n");
+          fflush(stderr);
+          exit(0);
+         }
 
-/* Mass matrix */
-  
-   M = (double (*)[3]) malloc(ARCHnodes * sizeof(double [3]));
-   if (M == (double (*)[3]) NULL) {
-      fprintf(stderr, "malloc failed for M\n");
-      fflush(stderr);
-      exit(0);
-     }
+    /* Damping matrix */
 
-/* Damping matrix */
+      C = (double (*)[3]) malloc(ARCHnodes * sizeof(double [3]));
+      if (C == (double (*)[3]) NULL) {
+         fprintf(stderr, "malloc failed for C\n");
+         fflush(stderr);
+         exit(0);
+       }
 
-  C = (double (*)[3]) malloc(ARCHnodes * sizeof(double [3]));
-  if (C == (double (*)[3]) NULL) {
-     fprintf(stderr, "malloc failed for C\n");
-     fflush(stderr);
-     exit(0);
-   }
+    /* Auxiliary mass matrix */
 
-/* Auxiliary mass matrix */
+      M23 = (double (*)[3]) malloc(ARCHnodes * sizeof(double [3]));
+      if (M23 == (double (*)[3]) NULL) {
+         fprintf(stderr, "malloc failed for M23\n");
+         fflush(stderr);
+         exit(0);
+       }
 
-  M23 = (double (*)[3]) malloc(ARCHnodes * sizeof(double [3]));
-  if (M23 == (double (*)[3]) NULL) {
-     fprintf(stderr, "malloc failed for M23\n");
-     fflush(stderr);
-     exit(0);
-   }
+    /* Auxiliary damping matrix */
 
-/* Auxiliary damping matrix */
+      C23 = (double (*)[3]) malloc(ARCHnodes * sizeof(double [3]));
+      if (C23 == (double (*)[3]) NULL) {
+         fprintf(stderr, "malloc failed for C23\n");
+         fflush(stderr);
+         exit(0);
+       }
 
-  C23 = (double (*)[3]) malloc(ARCHnodes * sizeof(double [3]));
-  if (C23 == (double (*)[3]) NULL) {
-     fprintf(stderr, "malloc failed for C23\n");
-     fflush(stderr);
-     exit(0);
-   }
+    /* Auxiliary vector */
 
-/* Auxiliary vector */
+      V23 = (double (*)[3]) malloc(ARCHnodes * sizeof(double [3]));
+      if (V23 == (double (*)[3]) NULL) {
+         fprintf(stderr, "malloc failed for V23\n");
+         fflush(stderr);
+         exit(0);
+       }
 
-  V23 = (double (*)[3]) malloc(ARCHnodes * sizeof(double [3]));
-  if (V23 == (double (*)[3]) NULL) {
-     fprintf(stderr, "malloc failed for V23\n");
-     fflush(stderr);
-     exit(0);
-   }
+      /* Temporary disp array w1[numthreads][ARCHnodes][3] */
+      w1 = (smallarray_t **) malloc(numthreads * sizeof(smallarray_t *));
+      if (w1 == (smallarray_t **) NULL) {
+        fprintf(stderr, "malloc failed for w1\n");
+        fflush(stderr);
+        exit(0);
+      }
 
-  /* Temporary disp array w1[numthreads][ARCHnodes][3] */
-  w1 = (smallarray_t **) malloc(numthreads * sizeof(smallarray_t *));
-  if (w1 == (smallarray_t **) NULL) {
-    fprintf(stderr, "malloc failed for w1\n");
-    fflush(stderr);
-    exit(0);
-  }
-#pragma omp parallel for shared(w1)
-  for (i = 0; i < numthreads; i++) {
-    w1[i] = (smallarray_t *) malloc(ARCHnodes * sizeof(smallarray_t));
-    if (w1[i] == (smallarray_t *) NULL) {
-      fprintf(stderr, "malloc failed for w1[%d]\n",i);
-      fflush(stderr);
-      exit(0);
-    }
-  }
-#pragma omp parallel for collapse(2) shared(w1)
-  for (j = 0; j < numthreads; j++) {
-    for (i = 0; i < ARCHnodes; i++) {
-      w1[j][i].first = 0.0;
-      w1[j][i].second = 0.0;
-      w1[j][i].third = 0.0;
-    }
-  }
+    //#pragma omp parallel for shared(w1)
+      for (i = 0; i < numthreads; i++) {
+        w1[i] = (smallarray_t *) malloc(ARCHnodes * sizeof(smallarray_t));
+        if (w1[i] == (smallarray_t *) NULL) {
+          fprintf(stderr, "malloc failed for w1[%d]\n",i);
+          fflush(stderr);
+          exit(0);
+        }
+      }
 
-  /* Temporary disp array w2[numthreads][ARCHnodes] */
-  w2 = (int **) malloc(numthreads * sizeof(int *));
-  if (w2 == (int **) NULL) {
-    fprintf(stderr, "malloc failed for w2\n");
-    fflush(stderr);
-    exit(0);
-  }
-    #pragma omp for private(i)
-  for (i = 0; i < numthreads; i++) {
-    w2[i] = (int *) malloc(ARCHnodes * sizeof(int));
-    if (w2[i] == (int *) NULL) {
-      fprintf(stderr, "malloc failed for w2[%d]\n",i);
-      fflush(stderr);
-      exit(0);
-    }
-  }
-#pragma omp parallel for collapse(2) shared(w2)
-  for (j = 0; j < numthreads; j++) {
-    for (i = 0; i < ARCHnodes; i++) {
-      w2[j][i] = 0;
-    }
-  }
+    #pragma omp parallel for collapse(2) shared(w1)
+      for (j = 0; j < numthreads; j++) {
+        for (i = 0; i < ARCHnodes; i++) {
+          w1[j][i].first = 0.0;
+          w1[j][i].second = 0.0;
+          w1[j][i].third = 0.0;
+        }
+      }
 
-  /* Displacement array disp[3][ARCHnodes][3] */
-  disp = (double (**)[3]) malloc(3 * sizeof(double (*)[3]));
-  if (disp == (double (**)[3]) NULL) {
-     fprintf(stderr, "malloc failed for disp\n");
-     fflush(stderr);
-     exit(0);
-   }
-  for (i = 0; i < 3; i++) {
-      disp[i] = (double (*)[3]) malloc(ARCHnodes * sizeof(double [3]));
-      if (disp[i] == (double (*)[3]) NULL) {
-     fprintf(stderr, "malloc failed for disp[%d]\n",i);
-      fflush(stderr);
-      exit(0);
-     }
-   }
+      /* Temporary disp array w2[numthreads][ARCHnodes] */
+      w2 = (int **) malloc(numthreads * sizeof(int *));
+      if (w2 == (int **) NULL) {
+        fprintf(stderr, "malloc failed for w2\n");
+        fflush(stderr);
+        exit(0);
+      }
 
-  /* Stiffness matrix K[ARCHmatrixlen][3][3] */
+    //#pragma omp parallel for shared(w2)
+      for (i = 0; i < numthreads; i++) {
+        w2[i] = (int *) malloc(ARCHnodes * sizeof(int));
+        if (w2[i] == (int *) NULL) {
+          fprintf(stderr, "malloc failed for w2[%d]\n",i);
+          fflush(stderr);
+          exit(0);
+        }
+      }
 
-  K = (double (*)[3][3]) malloc(ARCHmatrixlen * sizeof(double [3][3]));
-  if (K == (double (*)[3][3]) NULL) {
-     fprintf(stderr, "malloc failed for K\n");
-     fflush(stderr);
-     exit(0);
-   }
+    #pragma omp parallel for collapse(2) shared(w2)
+      for (j = 0; j < numthreads; j++) {
+        for (i = 0; i < ARCHnodes; i++) {
+          w2[j][i] = 0;
+        }
+      }
+
+      /* Displacement array disp[3][ARCHnodes][3] */
+      disp = (double (**)[3]) malloc(3 * sizeof(double (*)[3]));
+      if (disp == (double (**)[3]) NULL) {
+         fprintf(stderr, "malloc failed for disp\n");
+         fflush(stderr);
+         exit(0);
+       }
+      for (i = 0; i < 3; i++) {
+          disp[i] = (double (*)[3]) malloc(ARCHnodes * sizeof(double [3]));
+          if (disp[i] == (double (*)[3]) NULL) {
+         fprintf(stderr, "malloc failed for disp[%d]\n",i);
+          fflush(stderr);
+          exit(0);
+         }
+       }
+
+      /* Stiffness matrix K[ARCHmatrixlen][3][3] */
+
+      K = (double (*)[3][3]) malloc(ARCHmatrixlen * sizeof(double [3][3]));
+      if (K == (double (*)[3][3]) NULL) {
+         fprintf(stderr, "malloc failed for K\n");
+         fflush(stderr);
+         exit(0);
+       }
 
 
 
-  /* Initializations */
+      /* Initializations */
 
-#pragma omp parallel for private(i,j)
-  for (i = 0; i < ARCHnodes; i++) {
-    nodekind[i] = 0;
-    for (j = 0; j < 3; j++) {
-      M[i][j] = 0.0;
-      C[i][j] = 0.0;
-      M23[i][j] = 0.0;
-      C23[i][j] = 0.0;
-      V23[i][j] = 0.0;
-      disp[0][i][j] = 0.0;
-      disp[1][i][j] = 0.0;
-      disp[2][i][j] = 0.0;
-    }
-  }
-#pragma omp parallel for
-  for (i = 0; i < ARCHelems; i++) {
-    source_elms[i] = 1;
-  }
-    
-#pragma omp parallel for collapse(3)
-  for (i = 0; i < ARCHmatrixlen; i++) {
-    for (j = 0; j < 3; j++) {
-      for (k = 0; k < 3; k++) {
-        K[i][j][k] = 0.0;
+    #pragma omp parallel
+    {
+      #pragma omp for private(i, j)
+      for (i = 0; i < ARCHnodes; i++) {
+        nodekind[i] = 0;
+        for (j = 0; j < 3; j++) {
+          M[i][j] = 0.0;
+          C[i][j] = 0.0;
+          M23[i][j] = 0.0;
+          C23[i][j] = 0.0;
+          V23[i][j] = 0.0;
+          disp[0][i][j] = 0.0;
+          disp[1][i][j] = 0.0;
+          disp[2][i][j] = 0.0;
+        }
+      }
+
+      #pragma omp for
+      for (i = 0; i < ARCHelems; i++) {
+        source_elms[i] = 1;
+      }
+
+      #pragma omp for collapse(3)
+      for (i = 0; i < ARCHmatrixlen; i++) {
+        for (j = 0; j < 3; j++) {
+          for (k = 0; k < 3; k++) {
+            K[i][j][k] = 0.0;
+          }
+        }
       }
     }
-  }
-}
-
+    }
 /*--------------------------------------------------------------------------*/
