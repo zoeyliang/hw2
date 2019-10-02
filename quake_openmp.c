@@ -1546,7 +1546,7 @@ int i, j, k;
       exit(0);
     }
   }
-#pragma omp parallel for collapse(2) shared(w2) private(i,j)
+#pragma omp parallel for collapse(2) shared(w2)
   for (j = 0; j < numthreads; j++) {
     for (i = 0; i < ARCHnodes; i++) {
       w2[j][i] = 0;
@@ -1581,6 +1581,7 @@ int i, j, k;
 
 
   /* Initializations */
+
 #pragma omp parallel for private(i,j)
   for (i = 0; i < ARCHnodes; i++) {
     nodekind[i] = 0;
@@ -1595,11 +1596,12 @@ int i, j, k;
       disp[2][i][j] = 0.0;
     }
   }
-#pragma omp for
+#pragma omp parallel for
   for (i = 0; i < ARCHelems; i++) {
     source_elms[i] = 1;
   }
-#pragma omp for collapse(3)
+    
+#pragma omp parallel for collapse(3)
   for (i = 0; i < ARCHmatrixlen; i++) {
     for (j = 0; j < 3; j++) {
       for (k = 0; k < 3; k++) {
@@ -1608,4 +1610,5 @@ int i, j, k;
     }
   }
 }
+
 /*--------------------------------------------------------------------------*/
