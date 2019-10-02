@@ -360,7 +360,7 @@ int main(int argc, char **argv)
 /* Search for all the elements that contain the source node */
 
   if (Src.sourcenode != 0) {
-#pragma omp parallel for private(i,j,k,cor,vertices,xc)
+#pragma omp parallel for private(i,j,k,cor,vertices,xc)shared(ARCHvertex, ARCHcoord, source_elms)
     for (i = 0; i < ARCHelems; i++) {
       for (j = 0; j < 4; j++)
         cor[j] = ARCHvertex[i][j];
