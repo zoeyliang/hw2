@@ -161,7 +161,7 @@ int main(int argc, char **argv)
 /*--------------------------------------------------------------------------*/
 
 #ifdef _OPENMP
-   numthreads=omp_get_max_threads();
+    numthreads=omp_get_max_threads();
 #else
    numthreads=1;
 #endif

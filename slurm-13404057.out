@@ -20,7 +20,7 @@ The epicenter is node 16745 at (32.250000  23.687500  0.000000)
 
 Time step 30
 numthreads = 20
-Simulation time: 0.098308 seconds
+Simulation time: 0.098327 seconds
 
 5903: -3.42e-02 -3.11e-02 -4.03e-02
 16745: 9.04e-35 -8.75e-34 4.41e-33
