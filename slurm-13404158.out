@@ -1,0 +1,96 @@
+quake: Reading nodes.
+quake: Reading elements.
+quake: Reading sparse matrix structure.
+./quake1: Beginning simulation.
+
+CASE SUMMARY
+Fault information
+  Orientation:  strike: 1.937315
+                   dip: 0.767945
+                  rake: 1.221730
+           dislocation: 29.640788 cm
+Hypocenter: (32.264153, 23.814432, -11.250000) Km
+Excitation characteristics
+     Time step: 0.002400 sec
+      Duration: 9.250000 sec
+     Rise time: 0.600000 sec
+
+*** glibc detected *** ./quake1: double free or corruption (out): 0x0000000001f5e310 ***
+======= Backtrace: =========
+/lib64/libc.so.6(+0x75e5e)[0x7f52c9c83e5e]
+/lib64/libc.so.6(+0x78cf0)[0x7f52c9c86cf0]
+./quake1[0x4012eb]
+/lib64/libc.so.6(__libc_start_main+0x100)[0x7f52c9c2cd20]
+./quake1[0x402c45]
+======= Memory map: ========
+00400000-00408000 r-xp 00000000 00:1e 146948452                          /a/fs-3/export/home/deepthought2/cmsc714-1t4g/hw2/quake1
+00608000-00609000 rw-p 00008000 00:1e 146948452                          /a/fs-3/export/home/deepthought2/cmsc714-1t4g/hw2/quake1
+0197d000-01f82000 rw-p 00000000 00:00 0                                  [heap]
+7f52b8000000-7f52b8021000 rw-p 00000000 00:00 0 
+7f52b8021000-7f52bc000000 ---p 00000000 00:00 0 
+7f52be7c8000-7f52be7dd000 r-xp 00000000 00:14 5904687                    /export/rel60_shadow/glue.umd.edu/software/gcc/4.8.1/.amd64_rel60/lib64/libgcc_s.so.1
+7f52be7dd000-7f52be9dd000 ---p 00015000 00:14 5904687                    /export/rel60_shadow/glue.umd.edu/software/gcc/4.8.1/.amd64_rel60/lib64/libgcc_s.so.1
+7f52be9dd000-7f52be9de000 rw-p 00015000 00:14 5904687                    /export/rel60_shadow/glue.umd.edu/software/gcc/4.8.1/.amd64_rel60/lib64/libgcc_s.so.1
+7f52be9de000-7f52bfb16000 rw-p 00000000 00:00 0 
+7f52bfb16000-7f52bfb17000 ---p 00000000 00:00 0 
+7f52bfb17000-7f52c0517000 rw-p 00000000 00:00 0 
+7f52c0517000-7f52c0518000 ---p 00000000 00:00 0 
+7f52c0518000-7f52c0f18000 rw-p 00000000 00:00 0 
+7f52c0f18000-7f52c0f19000 ---p 00000000 00:00 0 
+7f52c0f19000-7f52c1919000 rw-p 00000000 00:00 0 
+7f52c1919000-7f52c191a000 ---p 00000000 00:00 0 
+7f52c191a000-7f52c231a000 rw-p 00000000 00:00 0 
+7f52c231a000-7f52c231b000 ---p 00000000 00:00 0 
+7f52c231b000-7f52c2d1b000 rw-p 00000000 00:00 0 
+7f52c2d1b000-7f52c2d1c000 ---p 00000000 00:00 0 
+7f52c2d1c000-7f52c371c000 rw-p 00000000 00:00 0 
+7f52c371c000-7f52c371d000 ---p 00000000 00:00 0 
+7f52c371d000-7f52c411d000 rw-p 00000000 00:00 0 
+7f52c411d000-7f52c411e000 ---p 00000000 00:00 0 
+7f52c411e000-7f52c4b1e000 rw-p 00000000 00:00 0 
+7f52c4b1e000-7f52c4b1f000 ---p 00000000 00:00 0 
+7f52c4b1f000-7f52c551f000 rw-p 00000000 00:00 0 
+7f52c551f000-7f52c5520000 ---p 00000000 00:00 0 
+7f52c5520000-7f52c5f20000 rw-p 00000000 00:00 0 
+7f52c5f20000-7f52c5f21000 ---p 00000000 00:00 0 
+7f52c5f21000-7f52c6921000 rw-p 00000000 00:00 0 
+7f52c6921000-7f52c6922000 ---p 00000000 00:00 0 
+7f52c6922000-7f52c7322000 rw-p 00000000 00:00 0 
+7f52c7322000-7f52c7323000 ---p 00000000 00:00 0 
+7f52c7323000-7f52c7d23000 rw-p 00000000 00:00 0 
+7f52c7d23000-7f52c7d24000 ---p 00000000 00:00 0 
+7f52c7d24000-7f52c8724000 rw-p 00000000 00:00 0 
+7f52c8724000-7f52c8725000 ---p 00000000 00:00 0 
+7f52c8725000-7f52c9a06000 rw-p 00000000 00:00 0 
+7f52c9a06000-7f52c9a0d000 r-xp 00000000 08:05 14812                      /lib64/librt-2.12.so
+7f52c9a0d000-7f52c9c0c000 ---p 00007000 08:05 14812                      /lib64/librt-2.12.so
+7f52c9c0c000-7f52c9c0d000 r--p 00006000 08:05 14812                      /lib64/librt-2.12.so
+7f52c9c0d000-7f52c9c0e000 rw-p 00007000 08:05 14812                      /lib64/librt-2.12.so
+7f52c9c0e000-7f52c9d99000 r-xp 00000000 08:05 13861                      /lib64/libc-2.12.so
+7f52c9d99000-7f52c9f98000 ---p 0018b000 08:05 13861                      /lib64/libc-2.12.so
+7f52c9f98000-7f52c9f9c000 r--p 0018a000 08:05 13861                      /lib64/libc-2.12.so
+7f52c9f9c000-7f52c9f9e000 rw-p 0018e000 08:05 13861                      /lib64/libc-2.12.so
+7f52c9f9e000-7f52c9fa2000 rw-p 00000000 00:00 0 
+7f52c9fa2000-7f52c9fb9000 r-xp 00000000 08:05 13874                      /lib64/libpthread-2.12.so
+7f52c9fb9000-7f52ca1b9000 ---p 00017000 08:05 13874                      /lib64/libpthread-2.12.so
+7f52ca1b9000-7f52ca1ba000 r--p 00017000 08:05 13874                      /lib64/libpthread-2.12.so
+7f52ca1ba000-7f52ca1bb000 rw-p 00018000 08:05 13874                      /lib64/libpthread-2.12.so
+7f52ca1bb000-7f52ca1bf000 rw-p 00000000 00:00 0 
+7f52ca1bf000-7f52ca1cc000 r-xp 00000000 00:14 5904705                    /export/rel60_shadow/glue.umd.edu/software/gcc/4.8.1/.amd64_rel60/lib64/libgomp.so.1.0.0
+7f52ca1cc000-7f52ca3cc000 ---p 0000d000 00:14 5904705                    /export/rel60_shadow/glue.umd.edu/software/gcc/4.8.1/.amd64_rel60/lib64/libgomp.so.1.0.0
+7f52ca3cc000-7f52ca3cd000 rw-p 0000d000 00:14 5904705                    /export/rel60_shadow/glue.umd.edu/software/gcc/4.8.1/.amd64_rel60/lib64/libgomp.so.1.0.0
+7f52ca3cd000-7f52ca450000 r-xp 00000000 08:05 14805                      /lib64/libm-2.12.so
+7f52ca450000-7f52ca64f000 ---p 00083000 08:05 14805                      /lib64/libm-2.12.so
+7f52ca64f000-7f52ca650000 r--p 00082000 08:05 14805                      /lib64/libm-2.12.so
+7f52ca650000-7f52ca651000 rw-p 00083000 08:05 14805                      /lib64/libm-2.12.so
+7f52ca651000-7f52ca671000 r-xp 00000000 08:05 14240                      /lib64/ld-2.12.so
+7f52ca677000-7f52ca84b000 rw-p 00000000 00:00 0 
+7f52ca86f000-7f52ca871000 rw-p 00000000 00:00 0 
+7f52ca871000-7f52ca872000 r--p 00020000 08:05 14240                      /lib64/ld-2.12.so
+7f52ca872000-7f52ca873000 rw-p 00021000 08:05 14240                      /lib64/ld-2.12.so
+7f52ca873000-7f52ca874000 rw-p 00000000 00:00 0 
+7ffdc6823000-7ffdc6838000 rw-p 00000000 00:00 0                          [stack]
+7ffdc6970000-7ffdc6971000 r-xp 00000000 00:00 0                          [vdso]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+numthreads = 1
+/export/software/slurm/spool/slurmd/job13404158/slurm_script: line 20: 18762 Aborted                 (core dumped) ./quake1 < quake.in
