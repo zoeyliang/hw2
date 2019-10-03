@@ -159,7 +159,7 @@ int main(int argc, char **argv)
 */
 
 /*--------------------------------------------------------------------------*/
-
+omp_set_num_threads(16);
 #ifdef _OPENMP
     numthreads=omp_get_num_threads();
 #else
