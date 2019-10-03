@@ -2,25 +2,25 @@ Flat profile:
 
 Each sample counts as 0.01 seconds.
   %   cumulative   self              self     total           
- time   seconds   seconds    calls   s/call   s/call  name    
- 96.95    177.14   177.14     2709     0.07     0.07  _fini
-  1.58    180.02     2.88 71983684     0.00     0.00  frame_dummy
-  1.32    182.44     2.42     2428     0.00     0.00  mem_init
-  0.08    182.58     0.14                             main
-  0.03    182.64     0.06                             deregister_tm_clones
-  0.02    182.67     0.03                             call_gmon_start
-  0.01    182.69     0.02                             _start
-  0.01    182.70     0.01   151179     0.00     0.00  get_Enu
-  0.01    182.71     0.01                             area_triangle
-  0.01    182.72     0.01                             phi1
-  0.00    182.72     0.01                             register_tm_clones
-  0.00    182.72     0.00     3855     0.00     0.00  phi0
-  0.00    182.72     0.00      892     0.00     0.00  __libc_csu_init
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 96.95    177.14   177.14     2709    65.39    65.39  _fini
+  1.58    180.03     2.89 71983684     0.00     0.00  frame_dummy
+  0.88    181.64     1.61     2428     0.66     0.66  mem_init
+  0.41    182.38     0.74      892     0.83     0.83  __libc_csu_init
+  0.07    182.51     0.13                             main
+  0.04    182.58     0.07                             __libc_csu_fini
+  0.03    182.63     0.06                             register_tm_clones
+  0.02    182.67     0.04                             __do_global_dtors_aux
+  0.01    182.68     0.01   151185     0.00     0.00  inv_J
+  0.01    182.69     0.01                             _start
+  0.01    182.70     0.01                             area_triangle
+  0.01    182.71     0.01                             deregister_tm_clones
+  0.01    182.72     0.01                             phi2
+  0.00    182.72     0.00     3855     0.00     0.00  phi1
   0.00    182.72     0.00       21     0.00     0.00  element_matrices
-  0.00    182.72     0.00        6     0.00     0.00  inv_J
-  0.00    182.72     0.00        2     0.00     2.87  smvp_opt
-  0.00    182.72     0.00        1     0.00     0.00  abe_matrix
-  0.00    182.72     0.00        1     0.00     0.00  arch_readelemvector
+  0.00    182.72     0.00        2     0.00     0.00  smvp_opt
+  0.00    182.72     0.00        1     0.00     0.00  arch_readdouble
+  0.00    182.72     0.00        1     0.00     0.00  phi0
 
  %         the percentage of the total running time of the
 time       program used by this function.
@@ -55,98 +55,100 @@ name       the name of the function.  This is the minor sort
 granularity: each sample hit covers 2 byte(s) for 0.01% of 182.72 seconds
 
 index % time    self  children    called     name
-[1]     99.8  182.44    0.00  163183+71825638 <cycle 1 as a whole> [1]
+[1]     99.8  181.64    0.74  158045+71830776 <cycle 1 as a whole> [1]
               177.14    0.00    2709             _fini <cycle 1> [3]
-                2.88    0.00 71983684+457681      frame_dummy <cycle 1> [6]
-                2.42    0.00    2428             mem_init <cycle 1> [7]
+                2.89    0.74 71983684+457681      frame_dummy <cycle 1> [4]
+                1.61    0.00    2428             mem_init <cycle 1> [6]
 -----------------------------------------------
                                                  <spontaneous>
-[2]     98.3    0.14  179.42                 main [2]
-              173.67    0.00  155336/163183      frame_dummy <cycle 1> [6]
-                0.00    5.74       2/2           smvp_opt [4]
-                0.01    0.00  151173/151179      get_Enu [11]
-                0.00    0.00       1/163183      mem_init <cycle 1> [7]
-                0.00    0.00      19/21          element_matrices [16]
-                0.00    0.00       1/1           abe_matrix [18]
-                0.00    0.00       1/1           arch_readelemvector [19]
+[2]     98.2    0.13  179.26                 main [2]
+              178.52    0.73  155336/158045      frame_dummy <cycle 1> [4]
+                0.01    0.00  151173/151185      inv_J [11]
+                0.00    0.00       1/158045      mem_init <cycle 1> [6]
+                0.00    0.00      19/21          element_matrices [18]
+                0.00    0.00       2/2           smvp_opt [19]
+                0.00    0.00       1/1           phi0 [21]
+                0.00    0.00       1/1           arch_readdouble [20]
 -----------------------------------------------
-                                   1             frame_dummy <cycle 1> [6]
-                0.00    0.00       2/163183      readpackfile [14]
-                3.03    0.00    2706/163183      phi1 [5]
+                                   1             frame_dummy <cycle 1> [4]
+                0.00    0.00       1/158045      readpackfile [16]
+                0.00    0.00       1/158045      arch_init [15]
+                3.11    0.01    2706/158045      phi2 [5]
 [3]     96.9  177.14    0.00    2709         _fini <cycle 1> [3]
-                             71818097             frame_dummy <cycle 1> [6]
+                             71818097             frame_dummy <cycle 1> [4]
 -----------------------------------------------
-                0.00    5.74       2/2           main [2]
-[4]      3.1    0.00    5.74       2         smvp_opt [4]
-                5.74    0.00    5138/163183      frame_dummy <cycle 1> [6]
------------------------------------------------
-                                                 <spontaneous>
-[5]      1.7    0.01    3.03                 phi1 [5]
-                3.03    0.00    2706/163183      _fini <cycle 1> [3]
------------------------------------------------
-                              457681             frame_dummy <cycle 1> [6]
-                                5113             mem_init <cycle 1> [7]
+                              457681             frame_dummy <cycle 1> [4]
+                               10251             mem_init <cycle 1> [6]
                              71818097             _fini <cycle 1> [3]
-                5.74    0.00    5138/163183      smvp_opt [4]
-              173.67    0.00  155336/163183      main [2]
-[6]      1.6    2.88    0.00 71983684+457681  frame_dummy <cycle 1> [6]
-                0.00    0.00    3855/3855        phi0 [15]
-                0.00    0.00     892/892         __libc_csu_init [36]
-                                2427             mem_init <cycle 1> [7]
+              178.52    0.73  155336/158045      main [2]
+[4]      2.0    2.89    0.74 71983684+457681  frame_dummy <cycle 1> [4]
+                0.74    0.00     892/892         __libc_csu_init [7]
+                0.00    0.00    3855/3855        phi1 [17]
+                                2427             mem_init <cycle 1> [6]
                                    1             _fini <cycle 1> [3]
-                              457681             frame_dummy <cycle 1> [6]
------------------------------------------------
-                                2427             frame_dummy <cycle 1> [6]
-                0.00    0.00       1/163183      main [2]
-[7]      1.3    2.42    0.00    2428         mem_init <cycle 1> [7]
-                0.00    0.00       6/151179      get_Enu [11]
-                0.00    0.00       6/6           inv_J [17]
-                                5113             frame_dummy <cycle 1> [6]
+                              457681             frame_dummy <cycle 1> [4]
 -----------------------------------------------
                                                  <spontaneous>
-[8]      0.0    0.06    0.00                 deregister_tm_clones [8]
+[5]      1.7    0.01    3.12                 phi2 [5]
+                3.11    0.01    2706/158045      _fini <cycle 1> [3]
+-----------------------------------------------
+                                2427             frame_dummy <cycle 1> [4]
+                0.00    0.00       1/158045      main [2]
+[6]      0.9    1.61    0.00    2428         mem_init <cycle 1> [6]
+                0.00    0.00      12/151185      inv_J [11]
+                               10251             frame_dummy <cycle 1> [4]
+-----------------------------------------------
+                0.74    0.00     892/892         frame_dummy <cycle 1> [4]
+[7]      0.4    0.74    0.00     892         __libc_csu_init [7]
 -----------------------------------------------
                                                  <spontaneous>
-[9]      0.0    0.03    0.00                 call_gmon_start [9]
+[8]      0.0    0.07    0.00                 __libc_csu_fini [8]
 -----------------------------------------------
                                                  <spontaneous>
-[10]     0.0    0.02    0.00                 _start [10]
+[9]      0.0    0.06    0.00                 register_tm_clones [9]
 -----------------------------------------------
-                0.00    0.00       6/151179      mem_init <cycle 1> [7]
-                0.01    0.00  151173/151179      main [2]
-[11]     0.0    0.01    0.00  151179         get_Enu [11]
+                                                 <spontaneous>
+[10]     0.0    0.04    0.00                 __do_global_dtors_aux [10]
+-----------------------------------------------
+                0.00    0.00      12/151185      mem_init <cycle 1> [6]
+                0.01    0.00  151173/151185      main [2]
+[11]     0.0    0.01    0.00  151185         inv_J [11]
 -----------------------------------------------
                                                  <spontaneous>
 [12]     0.0    0.01    0.00                 area_triangle [12]
 -----------------------------------------------
                                                  <spontaneous>
-[13]     0.0    0.01    0.00                 register_tm_clones [13]
+[13]     0.0    0.01    0.00                 deregister_tm_clones [13]
 -----------------------------------------------
                                                  <spontaneous>
-[14]     0.0    0.00    0.00                 readpackfile [14]
-                0.00    0.00       2/163183      _fini <cycle 1> [3]
+[14]     0.0    0.01    0.00                 _start [14]
 -----------------------------------------------
-                0.00    0.00    3855/3855        frame_dummy <cycle 1> [6]
-[15]     0.0    0.00    0.00    3855         phi0 [15]
-                0.00    0.00       1/21          element_matrices [16]
+                                                 <spontaneous>
+[15]     0.0    0.00    0.00                 arch_init [15]
+                0.00    0.00       1/158045      _fini <cycle 1> [3]
 -----------------------------------------------
-                0.00    0.00       1/21          abe_matrix [18]
-                0.00    0.00       1/21          phi0 [15]
+                                                 <spontaneous>
+[16]     0.0    0.00    0.00                 readpackfile [16]
+                0.00    0.00       1/158045      _fini <cycle 1> [3]
+-----------------------------------------------
+                0.00    0.00    3855/3855        frame_dummy <cycle 1> [4]
+[17]     0.0    0.00    0.00    3855         phi1 [17]
+                0.00    0.00       1/21          element_matrices [18]
+-----------------------------------------------
+                0.00    0.00       1/21          phi0 [21]
+                0.00    0.00       1/21          phi1 [17]
                 0.00    0.00      19/21          main [2]
-[16]     0.0    0.00    0.00      21         element_matrices [16]
+[18]     0.0    0.00    0.00      21         element_matrices [18]
 -----------------------------------------------
-                0.00    0.00       6/6           mem_init <cycle 1> [7]
-[17]     0.0    0.00    0.00       6         inv_J [17]
------------------------------------------------
-                0.00    0.00       1/1           main [2]
-[18]     0.0    0.00    0.00       1         abe_matrix [18]
-                0.00    0.00       1/21          element_matrices [16]
+                0.00    0.00       2/2           main [2]
+[19]     0.0    0.00    0.00       2         smvp_opt [19]
 -----------------------------------------------
                 0.00    0.00       1/1           main [2]
-[19]     0.0    0.00    0.00       1         arch_readelemvector [19]
+[20]     0.0    0.00    0.00       1         arch_readdouble [20]
 -----------------------------------------------
-                0.00    0.00     892/892         frame_dummy <cycle 1> [6]
-[36]     0.0    0.00    0.00     892         __libc_csu_init [36]
+                0.00    0.00       1/1           main [2]
+[21]     0.0    0.00    0.00       1         phi0 [21]
+                0.00    0.00       1/21          element_matrices [18]
 -----------------------------------------------
 
  This table describes the call tree of the program, and was sorted by
@@ -234,10 +236,10 @@ index % time    self  children    called     name
 
 Index by function name
 
-  [36] __libc_csu_init         [8] deregister_tm_clones   [15] phi0
-   [3] _fini                  [16] element_matrices        [5] phi1
-  [10] _start                  [6] frame_dummy            [13] register_tm_clones
-  [18] abe_matrix             [11] get_Enu                 [4] smvp_opt
-  [19] arch_readelemvector    [17] inv_J                   [1] <cycle 1>
-  [12] area_triangle           [2] main
-   [9] call_gmon_start         [7] mem_init
+  [10] __do_global_dtors_aux  [13] deregister_tm_clones   [17] phi1
+   [8] __libc_csu_fini        [18] element_matrices        [5] phi2
+   [7] __libc_csu_init         [4] frame_dummy             [9] register_tm_clones
+   [3] _fini                  [11] inv_J                  [19] smvp_opt
+  [14] _start                  [2] main                    [1] <cycle 1>
+  [20] arch_readdouble         [6] mem_init
+  [12] area_triangle          [21] phi0
