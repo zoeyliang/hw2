@@ -6,7 +6,7 @@
 
 #SBATCH --nodes=1
 ##SBATCH --ntasks=16
-#SBATCH --ntasks-per-node=16
+##SBATCH --ntasks-per-node=16
 ##SBATCH --cpus-per-task=16
 ##SBATCH --threads-per-core=16
 
