@@ -5,10 +5,11 @@
 #SBATCH --mail-user=jliang18@math.umd.edu
 
 #SBATCH --nodes=1
+export OMP_NUM_THREADS=16
 ##SBATCH --ntasks=1
 ##SBATCH --ntasks-per-node=16
 ##SBATCH --cpus-per-task=16
-#SBATCH --ntasks 1 --cpus-per-task 16
+##SBATCH --ntasks 1 --cpus-per-task 16
 
 
 #SBATCH -t 00:10:00
