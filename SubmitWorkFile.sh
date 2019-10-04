@@ -5,21 +5,16 @@
 #SBATCH --mail-user=jliang18@math.umd.edu
 
 #SBATCH --nodes=1
-##SBATCH --ntasks=1
 #SBATCH --ntasks-per-node=16
-##SBATCH --cpus-per-task=16
-##SBATCH --ntasks 1 --cpus-per-task 16
-
-
 #SBATCH -t 00:10:00
 
 
 . ~/.profile
 
 gcc -fopenmp -O3 -o quake1 quake1.c -lm
-export OMP_NUM_THREADS=16
+export OMP_NUM_THREADS=1
 ./quake1 < quake.in
 
-gprof quake1 gmon.out > analysis_16.txt
+gprof quake1 gmon.out > analysis_1.txt
 
 
