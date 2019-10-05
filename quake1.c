@@ -159,6 +159,11 @@ int main(int argc, char **argv)
 */
 
 /*--------------------------------------------------------------------------*/
+    /* Simulation */
+      // time the simulation part to see if parallizing the complex loop below will give a large improvement
+    #ifdef _OPENMP
+      double tic = omp_get_wtime();
+    #endif
 
 #ifdef _OPENMP
     numthreads=omp_get_max_threads();
@@ -383,11 +388,7 @@ int main(int argc, char **argv)
     }
   }
 
-/* Simulation */
-  // time the simulation part to see if parallizing the complex loop below will give a large improvement
-#ifdef _OPENMP
-  double tic = omp_get_wtime();
-#endif
+
 
   for (i = 0; i < ARCHelems; i++) {
     for (j = 0; j < 12; j++) {
@@ -520,10 +521,7 @@ int main(int argc, char **argv)
       }
     }
   }
-#ifdef _OPENMP
-  double toc = omp_get_wtime();
-  printf("Simulation time: %f seconds\n\n", (double)(toc - tic)  );
-#endif
+
 
 /* Time integration loop */
 
@@ -603,7 +601,10 @@ int main(int argc, char **argv)
   if (!options.quiet) {
     fprintf(stderr, "Done. Terminating the simulation.\n");
   }
-
+    #ifdef _OPENMP
+      double toc = omp_get_wtime();
+      printf("Simulation time: %f seconds\n\n", (double)(toc - tic)  );
+    #endif
   return 0;
 }
 /* --------------------------------------------------------------------------*/

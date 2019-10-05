@@ -12,9 +12,9 @@
 . ~/.profile
 
 gcc -fopenmp -O3 -o quake1 quake1.c -lm
-export OMP_NUM_THREADS=1
+export OMP_NUM_THREADS=16
 ./quake1 < quake.in
 
-gprof quake1 gmon.out > analysis_1.txt
+gprof quake1 gmon.out > analysis_16.txt
 
 
